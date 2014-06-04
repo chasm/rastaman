@@ -16,6 +16,10 @@ class SessionController < ApplicationController
     end
   end
 
+  def destroy
+    session[:user_id] = nil
+  end
+
   protected
 
   def registrant_params
