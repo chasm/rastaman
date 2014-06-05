@@ -12,14 +12,14 @@ $ ->
         $('#password-field').hide()
         $('#login-submit').val("Sign up")
         $('#login legend').html("Please sign up")
-        $('[name=form-type]').val("signup")
+        $('[name=form_type]').val("signup")
       when 'reset-tab'
         $('#password-field').hide()
         $('#login-submit').val("Send password reset")
         $('#login legend').html("Enter your email to reset your password")
-        $('[name=form-type]').val("reset")
+        $('[name=form_type]').val("reset")
       else
         $('#password-field').show()
         $('#login-submit').val("Sign in")
         $('#login legend').html("Please sign in")
-        $('[name=form-type]').val("login")
+        $('[name=form_type]').val("login")

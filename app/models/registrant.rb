@@ -12,6 +12,15 @@ class Registrant
 
   validates :email, presence: true, format: { with: EMAIL_REGEX }
 
+  def self.find_by_code(sign_up_code)
+    Registrant.where( :sign_up_expires_at.lt => Time.now ).destroy_all
+    if registrant = Registrant.find_by( :sign_up_code => sign_up_code )
+      registrant.sign_up_expires_at = Time.now + TIME_UNTIL_EXPIRE
+      registrant.save
+      registrant
+    end
+  end
+
   protected
 
   def set_sign_up_code_and_expiration
