@@ -14,6 +14,31 @@
  *= require_self
  */
 
+
+.nav-pills > li:hover,
+.nav-pills > li:focus {
+  background-color: #eeeeee;
+}
+
+.nav-pills > li.active {
+  color: #fff;
+  background-color: #428bca;
+}
+
+.nav-pills > li {
+  border-radius: 4px;
+}
+
+.nav > li {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+}
+
+.form-selector {
+  margin: 40px 0 20px;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

@@ -14,9 +14,13 @@ class User
   validates :email, presence: true, format: { with: EMAIL_REGEX }
 
   def authenticate(password)
-    # encrypt the passed-in password with the user's salt
-    # and compare it to the user's "fish"
-    # return true if they match, false if they don't
+    self.fish == BCrypt::Engine.hash_secret(password, self.salt)
+  end
+
+  def self.authenticate(email, password)
+    user = User.find_by( email: email )
+
+    user if user && user.authenticate(password)
   end
 
   protected

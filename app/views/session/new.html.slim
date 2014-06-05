@@ -1,14 +1,23 @@
 .row
   .col-sm-6.col-sm-offset-3
-    = form_for @registrant, url: login_url, html: { id: 'login' } do |f|
-      fieldset
-        legend Please sign up
-        .form-group
-          = f.label :email, class: "sr-only"
-          = f.text_field :email, placeholder: "Please enter your email address", class: "form-control"
-        .form-group
-          = f.submit "Sign up", class: "btn btn-success"
+    ul.form-selector.nav.nav-pills
+      li#sign-in-tab.active Sign in
+      li#sign-up-tab Sign up
+      li#reset-tab Reset password
 
 .row
   .col-sm-6.col-sm-offset-3
-    / Add the login form for the USER (email and password) here
+    = form_for @user, url: login_url, html: { id: 'login' } do |f|
+      fieldset
+        legend Please sign in
+        .form-group
+          = f.label :email, class: "sr-only"
+          = f.text_field :email, placeholder: "Email", class: "form-control"
+        #password-field.form-group
+          = f.label :password, class: "sr-only"
+          = f.password_field :password, placeholder: "Password", class: "form-control"
+        .form-group
+          input type="hidden" name="form-type" value="login"
+          = f.submit "Sign in", class: "btn btn-success", id: "login-submit"
+
+script src="/assets/session.js"
