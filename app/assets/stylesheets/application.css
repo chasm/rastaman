@@ -15,21 +15,18 @@
  */
 
 
-.nav-pills > li:hover,
-.nav-pills > li:focus {
+.login-tabs > li:hover,
+.login-tabs > li:focus {
   background-color: #eeeeee;
 }
 
-.nav-pills > li.active {
+.login-tabs > li.active {
   color: #fff;
   background-color: #428bca;
 }
 
-.nav-pills > li {
+.login-tabs > li {
   border-radius: 4px;
-}
-
-.nav > li {
   position: relative;
   display: block;
   padding: 10px 15px;

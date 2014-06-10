@@ -15,7 +15,7 @@ class RegistrationController < ApplicationController
       if @user.save
         @registrant.destroy
 
-        session[:user_id] = @user.id
+        log_user_in(@user)
 
         redirect_to root_url
       else

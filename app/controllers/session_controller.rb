@@ -8,8 +8,8 @@ class SessionController < ApplicationController
     case params[:form_type]
     when "login"
       if @user = User.authenticate(params[:user][:email], params[:user][:password])
-        session[:user_id] = @user.id
-        redirect_to root_url
+        log_user_in(@user)
+        redirect_to root_url, notice: "Welcome!"
       else
         @user = User.new( user_params )
         render :new
@@ -22,7 +22,9 @@ class SessionController < ApplicationController
 
         render text: "We sent you an email", status: :created
       else
+        puts "Registrant save failed!"
         @user = User.new( user_params )
+        flash.now[:alert] = "No workee!"
         render :new
       end
     else
@@ -34,7 +36,7 @@ class SessionController < ApplicationController
   end
 
   def destroy
-    session[:user_id] = nil
+    log_user_out
     redirect_to login_url
   end
 
