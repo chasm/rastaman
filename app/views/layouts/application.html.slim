@@ -46,18 +46,19 @@ html
             li
               a href="#" One more separated link
 
-      - flash.each do |name, msg|
-        javascript:
-          $(function() {
-            var notyType = #{name} === 'notice' ? 'success' : 'error';
-            var timeOut = #{name} === 'notice' ? 3000 : 20000;
-            var n = noty({
-              timeout: timeOut,
-              type: notyType,
-              text: "#{msg}"
+      .container
+        - flash.each do |name, msg|
+          javascript:
+            $(function() {
+              var notyType = #{name} === 'notice' ? 'success' : 'error';
+              var timeOut = #{name} === 'notice' ? 3000 : 20000;
+              var n = noty({
+                timeout: timeOut,
+                type: notyType,
+                text: "#{msg}"
+              });
             });
-          });
-      == yield
+        == yield
 
     footer
       .container
