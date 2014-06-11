@@ -1,7 +1,7 @@
 class Registrant
   include Mongoid::Document
 
-  TIME_UNTIL_EXPIRE = 2.hours
+  TIME_UNTIL_EXPIRE = 1.day
 
   before_create :set_sign_up_code_and_expiration
   before_save :downcase_email

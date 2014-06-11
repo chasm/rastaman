@@ -16,9 +16,11 @@ class ApplicationController < ActionController::Base
 
   def log_user_in(user)
     session[:user_id] = user.id
+    redirect_to root_url
   end
 
   def log_user_out
     session[:user_id] = nil
+    redirect_to login_url
   end
 end

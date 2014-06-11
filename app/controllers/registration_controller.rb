@@ -1,32 +1,33 @@
 class RegistrationController < ApplicationController
+  before_action :get_registrant
 
   def new
-    if @registrant = Registrant.find_by_code(params[:sign_up_code])
-      @user = User.new(email: @registrant.email)
-    else
-      render text: "You're registration is expired!"
-    end
   end
 
   def create
-    if @registrant = Registrant.find_by_code(params[:sign_up_code])
-      @user = User.new( user_params.merge(email: @registrant.email) )
+    result = UserRegistration.new
+      .complete_user_registration(@registrant, user_params)
 
-      if @user.save
-        @registrant.destroy
-
-        log_user_in(@user)
-
-        redirect_to root_url
-      else
-        render :new
-      end
+    if result[:user].valid?
+      flash[result[:type]] = result[:message]
+      log_user_in(result[:user])
     else
-      render text: "You're registration is expired!"
+      @user = result[:user]
+      flash.now[result[:type]] = result[:message]
+      render :new
     end
   end
 
   protected
+
+  def get_registrant
+    if @registrant = Registrant.find_by_code( params[:sign_up_code] )
+      @user = User.new(email: @registrant.email)
+    else
+      flash[:error] = "Sorry, your registration code expired. Please try again."
+      redirect_to login_url
+    end
+  end
 
   def user_params
     params.require(:user).permit( :password, :password_confirmation )

@@ -5,39 +5,29 @@ class SessionController < ApplicationController
   end
 
   def create
-    case params[:form_type]
-    when "login"
-      if @user = User.authenticate(params[:user][:email], params[:user][:password])
-        log_user_in(@user)
-        redirect_to root_url, notice: "Welcome!"
-      else
-        @user = User.new( user_params )
-        render :new
-      end
-    when "signup"
-      @registrant = Registrant.new( user_params )
+    email = params[:user][:email]
+    password = params[:user][:password]
 
-      if @registrant.save
-        EmailValidator.complete_registration(@registrant).deliver
-
-        render text: "We sent you an email", status: :created
+    result = case params[:form_type]
+      when "login"
+        UserLogin.new.log_user_in(email, password)
+      when "signup"
+        UserRegistration.new.send_registration_email(email)
       else
-        puts "Registrant save failed!"
-        @user = User.new( user_params )
-        flash.now[:alert] = "No workee!"
-        render :new
+        {} # PasswordReset.new.send_reset_email(email)
       end
+
+    if result[:user].nil?
+      @user = User.new( user_params )
+      flash.now[result[:type]] = result[:message]
+      render :new
     else
-      render text: "Resetting the password!"
-      # Find user with params[:user][:email] email address
-      # if not found, send "not found!" message
-      # if found, send password reset email
+      log_user_in( result[:user] )
     end
   end
 
   def destroy
     log_user_out
-    redirect_to login_url
   end
 
   protected

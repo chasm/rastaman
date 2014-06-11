@@ -18,11 +18,9 @@ html
       - flash.each do |name, msg|
         javascript:
           $(function() {
-            var notyType = #{name} === 'notice' ? 'success' : 'error';
-            var timeOut = #{name} === 'notice' ? 3000 : 20000;
             var n = noty({
-              timeout: timeOut,
-              type: notyType,
+              timeout: 20000,
+              type: "#{name}",
               text: "#{msg}"
             });
           });
