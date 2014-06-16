@@ -3,7 +3,8 @@ class User
 
   TIME_UNTIL_EXPIRE = 1.day
 
-  before_save :encrypt_password, :downcase_email
+  before_save :encrypt_password if :password
+  before_save :downcase_email
 
   attr_accessor :password, :password_confirmation
 

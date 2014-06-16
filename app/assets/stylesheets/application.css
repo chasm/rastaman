@@ -37,6 +37,11 @@ code {
   font-size: 80%;
 }
 
+.pw-match {
+  color: green;
+  font-weight: bold;
+}
+
 .login-tabs > li:hover,
 .login-tabs > li:focus {
   background-color: #eeeeee;
