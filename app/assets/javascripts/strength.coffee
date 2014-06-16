@@ -1,7 +1,22 @@
 $ ->
+  MINIMUM_SCORE = 3
+
+  checkMatch = ->
+    pw = $('#user_password').val()
+    pwc = $('#user_password_confirmation').val()
+    
+    if pw == pwc
+      $('#match-div').html("Passwords match!").addClass('pw-good')
+      true
+    else
+      $('#match-div').html("Passwords don't match!").removeClass('pw-good')
+      false
+
   checkStrength = ->
+    pw = $('#user_password').val()
+    score = 0
+
     if zxcvbn?
-      pw = $('#user_password').val()
       result = zxcvbn(pw)
 
       score = result.score
@@ -23,22 +38,15 @@ $ ->
 
       $('#crack-time-display').html result.crack_time_display
 
-      if score > 2
-        $('#update-button').attr('disabled', false)
+      if score < MINIMUM_SCORE
+        $('#score-quality').html("Password too weak!").removeClass('pw-good')
       else
-        $('#update-button').attr('disabled', true)
+        $('#score-quality').html("Password good enough!").addClass('pw-good')
 
-  checkMatch = ->
-    pw = $('#user_password').val()
-    pwc = $('#user_password_confirmation').val()
-
-    console.log "#{pw} == #{pwc}"
-    if pw == pwc
-      $('#match-div').html("Passwords match!").addClass('pw-match')
-      $('#match-div').html("Passwords don't match!").removeClass('pw-match')
+    if checkMatch() and score >= MINIMUM_SCORE
+      $('#update-button').attr('disabled', false)
+    else
+      $('#update-button').attr('disabled', true)
 
   $('.strength-check').on 'keyup', (e) ->
     checkStrength()
-
-  $('.match-check').on 'keyup', (e) ->
-    checkMatch()

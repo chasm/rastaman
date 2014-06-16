@@ -37,7 +37,22 @@ code {
   font-size: 80%;
 }
 
-.pw-match {
+h1.password-reset {
+  border-bottom: 1px solid #eeeeee;
+  font-size: 24px;
+  font-weight: normal;
+  line-height: 2;
+}
+
+.meter {
+  margin: 5px 0;
+}
+
+.match-div, .score-quality {
+  color: red;
+}
+
+.pw-good {
   color: green;
   font-weight: bold;
 }
