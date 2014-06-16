@@ -15,7 +15,7 @@ class User
   field :password_reset_code
   field :password_reset_expires_at, type: Time
 
-  validates :email, presence: true, format: { with: EMAIL_REGEX }
+  validates :email, presence: true, format: { with: EMAIL_REGEX }, uniqueness: true
   validates :password, confirmation: true
 
   def self.find_by_code(password_reset_code)

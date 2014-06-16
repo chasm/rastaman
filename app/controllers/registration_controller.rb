@@ -1,6 +1,10 @@
 class RegistrationController < ApplicationController
   before_action :redirect_if_logged_in, :get_registrant
 
+  REGISTRATION_CODE_EXPIRED = %{
+     Sorry, your registration code expired. Please try again.
+   }.squish
+
   def new
   end
 
@@ -24,7 +28,7 @@ class RegistrationController < ApplicationController
     if @registrant = Registrant.find_by_code( params[:sign_up_code] )
       @user = User.new(email: @registrant.email)
     else
-      flash[:error] = "Sorry, your registration code expired. Please try again."
+      flash[:error] = REGISTRATION_CODE_EXPIRED
       redirect_to login_url
     end
   end
