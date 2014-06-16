@@ -28,3 +28,9 @@ Registrant.create([
     sign_up_expires_at: Time.now + 2.hours
   }
 ])
+
+User.create(
+  email: "chas@munat.com",
+  password: "123",
+  password_confirmation: "123"
+)

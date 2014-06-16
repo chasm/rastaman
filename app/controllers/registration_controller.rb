@@ -1,5 +1,5 @@
 class RegistrationController < ApplicationController
-  before_action :get_registrant
+  before_action :redirect_if_logged_in, :get_registrant
 
   def new
   end

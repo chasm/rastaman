@@ -3,7 +3,7 @@
     h1.password-reset Please reset your password for #{@user.email}
 .row
   .col-md-6
-    = form_for @user, url: password_reset_form_url(@user.password_reset_code), method: :patch, html: { id: 'registration' } do |f|
+    = form_for @user, url: password_reset_form_url(@user.password_reset_code), method: :patch, html: { id: 'password-reset' } do |f|
       fieldset
         .form-group
           = f.label :password, class: "sr-only"
@@ -12,7 +12,7 @@
           = f.label :password_confirmation, class: "sr-only"
           = f.password_field :password_confirmation, placeholder: "Please enter your password again", class: "form-control strength-check toggled"
         .form-group
-          => f.submit "Update password!", class: "btn btn-success", id: "update-button", disabled: true
+          => f.submit "Update password", class: "btn btn-success", id: "update-button", disabled: true
           button#password-toggle.password-toggle.btn.btn-warning Show passwords
   .col-md-6
     .progress.meter

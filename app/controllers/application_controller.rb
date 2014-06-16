@@ -12,6 +12,13 @@ class ApplicationController < ActionController::Base
     redirect_to login_url unless current_user
   end
 
+  def redirect_if_logged_in
+    if current_user
+      flash[:success] = "You are already logged in."
+      redirect_to root_url
+    end
+  end
+
   protected
 
   def log_user_in(user)

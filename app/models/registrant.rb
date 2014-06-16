@@ -1,5 +1,6 @@
 class Registrant
   include Mongoid::Document
+  include Mongoid::Timestamps
 
   TIME_UNTIL_EXPIRE = 1.day
 

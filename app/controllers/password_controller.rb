@@ -1,5 +1,5 @@
 class PasswordController < ApplicationController
-  before_action :get_user
+  before_action :redirect_if_logged_in, :get_user
 
   def edit
   end
