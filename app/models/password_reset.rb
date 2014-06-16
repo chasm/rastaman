@@ -4,10 +4,20 @@ class PasswordReset
   end
 
   def send_reset_email(email)
-    # if email found
-      # notice: sent you a reset email
-    # else
-      # error: can't find a user with that email address
+    out = {}
+
+    if user = User.find_by( email: email )
+      user.set_reset
+      EmailValidator.send_password_reset_email(user).deliver
+
+      out[:message] = "We sent a password reset link to #{email}."
+      out[:type] = :success
+    else
+      out[:message] = "Sorry! Can't find a user with that email address."
+      out[:type] = :error
+    end
+
+    out
   end
 
   def reset_user_password(attrs)

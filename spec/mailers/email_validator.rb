@@ -26,7 +26,7 @@ require 'spec_helper'
 
 describe "EmailValidator" do
   registrant = Fabricate(:registrant)
-  mail = EmailValidator.complete_registration(registrant)
+  mail = EmailValidator.send_registration_email(registrant)
 
   puts mail.from
 

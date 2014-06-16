@@ -1,6 +1,8 @@
 class User
   include Mongoid::Document
 
+  TIME_UNTIL_EXPIRE = 1.day
+
   before_save :encrypt_password, :downcase_email
 
   attr_accessor :password, :password_confirmation
@@ -8,10 +10,23 @@ class User
   field :email
   field :salt
   field :fish
-  # some fields here for resetting the password
+  field :password_reset_code
+  field :password_reset_expires_at, type: Time
 
   validates :email, presence: true, format: { with: EMAIL_REGEX }
   validates :password, confirmation: true
+
+  def self.find_by_code(password_reset_code)
+    User.where( :password_reset_expires_at.lt => Time.now ).each do |user|
+      user.clear_reset
+    end
+
+    if user = User.find_by( :password_reset_code => password_reset_code )
+      user.password_reset_expires_at = Time.now + TIME_UNTIL_EXPIRE
+      user.save
+      user
+    end
+  end
 
   def authenticate(password)
     self.fish == BCrypt::Engine.hash_secret(password, self.salt)
@@ -21,6 +36,18 @@ class User
     user = User.find_by( email: email )
 
     user if user && user.authenticate(password)
+  end
+
+  def set_reset
+    self.password_reset_code = SecureRandom.urlsafe_base64
+    self.password_reset_expires_at = Time.now + TIME_UNTIL_EXPIRE
+    self.save
+  end
+
+  def clear_reset
+    self.unset(:password_reset_code)
+    self.unset(:password_reset_expires_at)
+    self.save
   end
 
   protected

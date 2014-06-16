@@ -9,7 +9,7 @@ class UserRegistration
     out = {}
 
     if registrant.save
-      EmailValidator.complete_registration(registrant).deliver
+      EmailValidator.send_registration_email(registrant).deliver
 
       out[:message] = "We sent you an email to complete your registration."
       out[:type] = :success

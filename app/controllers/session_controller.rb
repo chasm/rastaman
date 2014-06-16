@@ -14,7 +14,7 @@ class SessionController < ApplicationController
       when "signup"
         UserRegistration.new.send_registration_email(email)
       else
-        {} # PasswordReset.new.send_reset_email(email)
+        PasswordReset.new.send_reset_email(email)
       end
 
     if result[:user].nil?
